@@ -36,3 +36,17 @@ variable "redis_password" {
 variable "auto_generate_secrets" {
   default = false
 }
+variable "tfe_base_domain" {
+  description = "domains that the intermediate server can serve certificates for"
+}
+variable "pki_role_name" {
+  description = "name of the issuer role"
+}
+variable "cert_ttl" {
+  description = "Time before requested certficate expires"
+  default = "90d"
+}
+variable "vault_user_to_create" {
+  description = "user to create that has access to the pki engine and kv store created here"
+  default = "tfe_user"
+}

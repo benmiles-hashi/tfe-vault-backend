@@ -8,7 +8,7 @@ data "vault_policy_document" "tfe_user_config_policy" {
     description  = "allow tfe_user to read tfe configuration data "
   }
   rule {
-    path         = "${vault_mount.pki_int_milabs_co.path}/issue/${vault_pki_secret_backend_role.int_role.name}"
+    path         = "${vault_mount.pki_int.path}/issue/${vault_pki_secret_backend_role.int_role.name}"
     capabilities = ["create", "update"]
     description  = "allow tfe_user to request tfe certificate "
   }
@@ -18,7 +18,7 @@ data "vault_policy_document" "tfe_user_config_policy" {
     description = "Allow user to update own token"
   }
   rule {
-    path = "sys/mounts/${vault_mount.pki_int_milabs_co.path}"
+    path = "sys/mounts/${vault_mount.pki_int.path}"
     capabilities = ["read"]
     description = "Allow tfe to read mount"
   }
@@ -28,7 +28,7 @@ resource "vault_policy" "tfe_user_config_policy" {
   policy = data.vault_policy_document.tfe_user_config_policy.hcl
 }
 resource "vault_generic_endpoint" "client_userpass_password" {
-  path                 = "auth/userpass/users/tfe_user"
+  path                 = "auth/userpass/users/${var.vault_user_to_create}"
   ignore_absent_fields = true
 
   data_json = <<EOT
